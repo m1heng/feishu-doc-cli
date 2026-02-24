@@ -56,6 +56,12 @@ export function normalizePath(input: string): string {
     p = p.slice("/document".length);
   }
 
+  // Strip anchor and query string (e.g. /path#anchor or /path?foo=bar)
+  const hashIdx = p.indexOf("#");
+  if (hashIdx !== -1) p = p.slice(0, hashIdx);
+  const qIdx = p.indexOf("?");
+  if (qIdx !== -1) p = p.slice(0, qIdx);
+
   // Ensure leading slash
   if (!p.startsWith("/")) {
     p = "/" + p;
