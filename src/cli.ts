@@ -60,13 +60,21 @@ async function cmdRead(path: string, lang: string) {
 
 async function cmdTree(lang: string, depth: number, path?: string) {
   const tree = await fetchTree(lang);
-  const nodes = path ? filterSubtree(tree, normalizePath(path)) : tree;
-  if (!nodes) {
+  const match = path ? filterSubtree(tree, normalizePath(path)) : null;
+  if (path && !match) {
     console.error(`Path not found in tree: ${path}`);
     process.exit(1);
     return;
   }
-  console.log(renderTree(nodes, depth));
+  // When filtering by path, render children of the matched node directly
+  // so --depth 1 shows its immediate children (not the node itself).
+  const nodes = match ? match[0].items : tree;
+  if (match && nodes.length === 0) {
+    // Leaf node — show the node itself
+    console.log(renderTree(match, depth));
+  } else {
+    console.log(renderTree(nodes, depth));
+  }
 }
 
 async function cmdSearch(keyword: string, lang: string) {
