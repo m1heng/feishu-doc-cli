@@ -1,14 +1,33 @@
 {
   "name": "feishu-doc-cli",
   "version": "0.1.0",
-  "description": "CLI tool to read Feishu Open Platform documentation as Markdown",
+  "description": "CLI tool to read Feishu Open Platform documentation as Markdown, designed for AI coding agents",
   "type": "module",
+  "license": "MIT",
+  "author": "m1heng",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/m1heng/feishu-doc-cli"
+  },
+  "homepage": "https://github.com/m1heng/feishu-doc-cli#readme",
+  "keywords": [
+    "feishu",
+    "lark",
+    "documentation",
+    "cli",
+    "markdown",
+    "ai-agent",
+    "developer-tools"
+  ],
+  "files": [
+    "dist"
+  ],
   "bin": {
     "feishu-doc": "dist/cli.js"
   },
   "scripts": {
     "build": "tsc",
-    "start": "node dist/cli.js"
+    "prepublishOnly": "tsc"
   },
   "devDependencies": {
     "@types/node": "^25.3.0",

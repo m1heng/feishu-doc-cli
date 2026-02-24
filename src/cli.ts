@@ -35,7 +35,8 @@ function parseArgs(argv: string[]) {
     if (argv[i] === "--lang" && argv[i + 1]) {
       lang = argv[++i];
     } else if (argv[i] === "--depth" && argv[i + 1]) {
-      depth = parseInt(argv[++i], 10);
+      const n = parseInt(argv[++i], 10);
+      if (Number.isFinite(n) && n > 0) depth = n;
     } else if (argv[i] === "--help" || argv[i] === "-h") {
       usage();
     } else {

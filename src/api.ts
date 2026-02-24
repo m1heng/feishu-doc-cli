@@ -36,7 +36,12 @@ export function normalizePath(input: string): string {
     "https://open.larkoffice.com",
   ]) {
     if (p.startsWith(domain)) {
-      p = new URL(p).pathname;
+      try {
+        p = new URL(p).pathname;
+      } catch {
+        // Malformed URL — strip the domain prefix as fallback
+        p = p.slice(domain.length);
+      }
       break;
     }
   }
@@ -68,8 +73,8 @@ export async function fetchTree(lang: string): Promise<TreeNode[]> {
   const res = await fetch(`${BASE}/api/tools/docment/directory_list`, {
     headers: headers(lang),
   });
-  const json = (await res.json()) as { code: number; data: { items: TreeNode[] } };
-  if (json.code !== 0) throw new Error(`API error: code ${json.code}`);
+  const json = (await res.json()) as { code: number; data?: { items: TreeNode[] } };
+  if (json.code !== 0 || !json.data) throw new Error(`API error: code ${json.code}`);
   return json.data.items;
 }
 
@@ -79,14 +84,16 @@ export async function fetchDoc(path: string, lang: string): Promise<Doc> {
   const res = await fetch(url, { headers: headers(lang) });
   const json = (await res.json()) as {
     code: number;
-    msg: string;
-    data: {
+    msg?: string;
+    data?: {
       name: string;
       content: string;
       fullPath: string;
       updateTime: number;
     };
   };
-  if (json.code !== 0) throw new Error(`API error: ${json.msg || json.code}`);
+  if (json.code !== 0 || !json.data) {
+    throw new Error(`API error: ${json.msg || `code ${json.code}`} (fullPath: ${fullPath})`);
+  }
   return json.data;
 }
