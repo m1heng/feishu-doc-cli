@@ -1,0 +1,20 @@
+{
+  "name": "feishu-doc-cli",
+  "version": "0.1.0",
+  "description": "CLI tool to read Feishu Open Platform documentation as Markdown",
+  "type": "module",
+  "bin": {
+    "feishu-doc": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/cli.js"
+  },
+  "devDependencies": {
+    "@types/node": "^25.3.0",
+    "typescript": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
