@@ -12,6 +12,14 @@ npm install -g feishu-doc-cli
 
 Requires Node.js >= 18.
 
+### As an AI agent skill
+
+```bash
+npx skills add m1heng/feishu-doc-cli
+```
+
+Once installed, agents like Claude Code will automatically use `feishu-doc` when you ask about Feishu/Lark APIs.
+
 ## Usage
 
 ### Read a document
@@ -95,7 +103,7 @@ feishu-doc read "/document/client-docs/intro"
 feishu-doc read "/home/intro"
 ```
 
-The CLI normalizes all formats internally. No need to manually convert.
+The CLI normalizes all formats internally, including anchors (`#section`) and query strings. No need to manually convert.
 
 ## How it works
 
